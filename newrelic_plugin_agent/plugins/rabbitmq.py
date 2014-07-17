@@ -232,10 +232,10 @@ class RabbitMQ(base.Plugin):
             if not message_stats:
                 message_stats = self.DUMMY_STATS
 
-            vhost = 'Default' if queue['vhost'] == '/' else queue['vhost']
+            vhost = 'Default' if queue['vhost'] == '/' else queue['vhost'].replace('/', '')
             base_name = 'Queue/%s/%s' % (vhost, queue['name'])
 
-            if not self.track_vhost_queue(vhost, queue['name']):
+            if not self.track_vhost_queue(queue['vhost'], queue['name']):
                 continue
 
             self.add_gauge_value('%s/Consumers' % base_name, 'consumers',
